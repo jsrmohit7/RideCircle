@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+  <!-- Circular Path representing journey/circle -->
+  <circle cx="256" cy="256" r="200" stroke="#a114e9" stroke-width="48" />
+  
+  <!-- Inner node representing a person/connection -->
+  <circle cx="180" cy="256" r="48" fill="#d264ff" />
+  
+  <!-- Second node representing destination -->
+  <circle cx="332" cy="256" r="48" fill="#831dc4" />
+  
+  <!-- Connecting route line bridging them -->
+  <line x1="180" y1="256" x2="332" y2="256" stroke="#09090B" stroke-width="24" stroke-linecap="round" />
+  
+  <!-- Subtracted cutouts to create the "R" implied shape and motion -->
+  <path d="M 180 256 Q 256 120 332 256" stroke="#FFFFFF" stroke-width="24" stroke-linecap="round" fill="none" />
+  <path d="M 256 256 L 310 380" stroke="#09090B" stroke-width="32" stroke-linecap="round" />
+</svg>
