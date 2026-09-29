@@ -14,7 +14,7 @@ interface RideCardProps {
 }
 
 export const RideCard: React.FC<RideCardProps> = ({ ride, onClick, onRequest, isCurrentUser }) => {
-  const creator = ride.creator || { name: 'Unknown', rating: 5.0 };
+  const creator = ride.creator || { name: 'Unknown', rating: 5.0, profile_image: undefined };
 
   return (
     <motion.div 
@@ -36,7 +36,7 @@ export const RideCard: React.FC<RideCardProps> = ({ ride, onClick, onRequest, is
       <div className="mt-10 flex flex-col space-y-5 pt-6 border-t border-border-light">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
-            <Avatar name={creator.name} size="sm" />
+            <Avatar name={creator.name} src={creator.profile_image} size="sm" />
             <div>
               <div className="text-sm font-bold text-black">{creator.name}</div>
               <div className="text-xs font-mono text-text-muted mt-0.5">⭐ {creator.rating.toFixed(1)}</div>

@@ -7,6 +7,7 @@ interface AuthContextType {
   isAuthenticated: boolean;
   isLoading: boolean;
   login: (credentials: LoginCredentials) => Promise<void>;
+  loginWithGoogle: (credential: string) => Promise<void>;
   register: (credentials: RegisterCredentials) => Promise<void>;
   logout: () => void;
 }
@@ -48,6 +49,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     await login({ email: credentials.email, password: credentials.password });
   };
 
+  const loginWithGoogle = async (credential: string) => {
+    const data = await authApi.loginWithGoogle(credential);
+    localStorage.setItem('ridecircle_token', data.access_token);
+    const userData = await authApi.getMe();
+    setUser(userData);
+  };
+
   const logout = () => {
     localStorage.removeItem('ridecircle_token');
     setUser(null);
@@ -58,6 +66,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     isAuthenticated: !!user,
     isLoading,
     login,
+    loginWithGoogle,
     register,
     logout
   };

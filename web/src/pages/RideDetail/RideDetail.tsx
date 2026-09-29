@@ -117,7 +117,7 @@ export const RideDetail: React.FC = () => {
   if (loading) return <div className="p-8 text-center text-zinc-500">Loading ride...</div>;
   if (!ride) return <div className="p-8 text-center text-zinc-500">Ride not found</div>;
 
-  const creator = ride.creator || { name: 'Unknown', rating: 5.0, verified: false };
+  const creator = ride.creator || { name: 'Unknown', rating: 5.0, verified: false, profile_image: undefined };
   const passengers = ride.passengers?.map(p => p.user) || [];
   const pendingRequests = ride.requests?.filter(r => r.status === 'PENDING') || [];
   
@@ -156,7 +156,7 @@ export const RideDetail: React.FC = () => {
         <section>
           <h2 className="text-[10px] font-mono font-bold text-text-muted mb-4 uppercase tracking-[0.15em]">DRIVER</h2>
           <div className="flex items-center space-x-4 bg-white p-6 rounded-[24px] border border-border-light shadow-sm">
-            <Avatar name={creator.name} size="lg" />
+            <Avatar name={creator.name} src={creator.profile_image} size="lg" />
             <div>
               <div className="font-bold text-black">{creator.name}</div>
               <div className="text-[10px] font-mono font-bold text-text-muted mt-1 uppercase tracking-[0.1em]">
@@ -172,7 +172,7 @@ export const RideDetail: React.FC = () => {
             {passengers.length === 0 && <div className="p-6 text-sm text-text-muted font-medium">No passengers yet</div>}
             {passengers.map(p => (
               <div key={p.id} className="flex items-center space-x-3 p-6">
-                <Avatar name={p.name} size="md" />
+                <Avatar name={p.name} src={p.profile_image} size="md" />
                 <div className="font-bold text-black">{p.name}</div>
               </div>
             ))}
@@ -201,7 +201,7 @@ export const RideDetail: React.FC = () => {
               {pendingRequests.map(req => (
                 <div key={req.id} className="bg-white p-6 rounded-[24px] border border-border-light flex flex-col sm:flex-row items-center justify-between gap-4 shadow-sm">
                   <div className="flex items-center space-x-3 w-full sm:w-auto">
-                    <Avatar name={req.user.name} size="sm" />
+                    <Avatar name={req.user.name} src={req.user.profile_image} size="sm" />
                     <div>
                       <div className="font-bold text-black">{req.user.name}</div>
                       <div className="text-[10px] font-mono font-bold text-text-muted uppercase tracking-[0.1em]">⭐ {req.user.rating.toFixed(1)}</div>

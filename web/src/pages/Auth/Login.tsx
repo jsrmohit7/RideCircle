@@ -5,12 +5,14 @@ import { Button } from '../../components/Button/Button';
 import { Input } from '../../components/Input/Input';
 import { useAuth } from '../../contexts/AuthContext';
 
+import { GoogleLogin } from '@react-oauth/google';
+
 export const Login: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const { login } = useAuth();
+  const { login, loginWithGoogle } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -25,6 +27,27 @@ export const Login: React.FC = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleGoogleSuccess = async (credentialResponse: any) => {
+    setError('');
+    setLoading(true);
+    try {
+      if (credentialResponse.credential) {
+        await loginWithGoogle(credentialResponse.credential);
+        navigate('/home');
+      } else {
+        setError('Failed to receive Google credential');
+      }
+    } catch (err: any) {
+      setError(err.response?.data?.detail || 'Google login failed');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleGoogleError = () => {
+    setError('Google authentication was cancelled or failed.');
   };
 
   return (
@@ -60,6 +83,24 @@ export const Login: React.FC = () => {
             Sign In
           </Button>
         </form>
+
+        <div className="mt-6 flex items-center">
+          <div className="flex-1 border-t border-zinc-200"></div>
+          <span className="px-3 text-xs text-zinc-400 uppercase tracking-wider">or</span>
+          <div className="flex-1 border-t border-zinc-200"></div>
+        </div>
+
+        <div className="mt-6 flex justify-center">
+          <GoogleLogin
+            onSuccess={handleGoogleSuccess}
+            onError={handleGoogleError}
+            width="100%"
+            theme="outline"
+            size="large"
+            text="continue_with"
+            shape="rectangular"
+          />
+        </div>
         
         <div className="mt-8 text-center text-zinc-500 text-sm">
           Don't have an account? <Link to="/register" className="text-[var(--color-rc-purple-400)] font-medium">Create one</Link>
